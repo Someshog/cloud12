@@ -1,0 +1,107 @@
+import tkinter as tk
+from tkinter import messagebox
+import requests
+
+def get_aqi():
+    city = city_entry.get()
+    api_key = "1d7b51b70a72407988ab4c47ad53a69e"  # Replace with your AQI API key
+    url = f"https://api.weatherbit.io/v2.0/current/airquality?city={city}&key={api_key}"
+
+    try:
+        response = requests.get(url)
+        aqi_data = response.json()
+
+        if "error" in aqi_data:
+            aqi_label.config(text=aqi_data["error"])
+        else:
+            aqi_text = f"City: {city}\n"
+            aqi_text += f"AQI: {aqi_data['data'][0]['aqi']}\n"
+            aqi_text += f"PM2.5: {aqi_data['data'][0]['pm25']}\n"
+            aqi_text += f"PM10: {aqi_data['data'][0]['pm10']}\n"
+            aqi_text += f"CO: {aqi_data['data'][0]['co']}\n"
+            aqi_text += f"SO2: {aqi_data['data'][0]['so2']}\n"
+            aqi_text += f"NO2: {aqi_data['data'][0]['no2']}\n"
+            aqi_text += f"O3: {aqi_data['data'][0]['o3']}"
+
+            aqi_label.config(text=aqi_text)
+    except requests.exceptions.RequestException as e:
+        aqi_label.config(text="Error: Unable to fetch AQI data.")
+
+def display_report():
+    location = city_entry.get()
+    data = fetch_water_quality_data(location)
+
+    if data:
+        wqi = calculate_water_quality_index(data)
+
+        # Display the report in a message box
+        report_text = f"Water Quality Report for {location}\n\n"
+        report_text += f"pH Level: {data['ph_level']}\n"
+        report_text += f"Turbidity: {data['turbidity']}\n"
+        report_text += f"Chlorine Level: {data['chlorine_level']}\n"
+        report_text += f"Bacteria Count: {data['bacteria_count']}\n\n"
+        report_text += f"Water Quality Index (WQI): {wqi:.2f}"
+
+        messagebox.showinfo("Water Quality Report", report_text)
+    else:
+        messagebox.showerror("Error", "Location not found or data unavailable.")
+
+def fetch_water_quality_data(location):
+    # Replace this with code to fetch actual water quality data
+    # Simulate data for demonstration purposes
+    dummy_data = {
+        'New York': {
+            'ph_level': 7.5,
+            'turbidity': 15.2,
+            'chlorine_level': 0.3,
+            'bacteria_count': 120,
+        },
+        'Los Angeles': {
+            'ph_level': 7.0,
+            'turbidity': 12.5,
+            'chlorine_level': 0.2,
+            'bacteria_count': 100,
+        },
+    }
+    return dummy_data.get(location)
+
+def calculate_water_quality_index(data):
+    # Replace this with your water quality index calculation logic
+    # Example: WQI = (ph_level + turbidity + chlorine_level) / bacteria_count
+    ph_level = data['ph_level']
+    turbidity = data['turbidity']
+    chlorine_level = data['chlorine_level']
+    bacteria_count = data['bacteria_count']
+
+    wqi = (ph_level + turbidity + chlorine_level) / bacteria_count
+    return wqi
+
+root = tk.Tk()
+root.title("AQI and WQI App")
+root.geometry("800x500")
+
+# AQI Frame
+aqi_frame = tk.Frame(root, bg='#80c1ff', bd=10)
+aqi_frame.place(relx=0.5, rely=0.1, relwidth=0.75, relheight=0.2, anchor='n')
+
+# AQI Entry and Button
+city_entry = tk.Entry(aqi_frame, font=("Arial", 13))
+city_entry.place(relx=0.05, rely=0.1, relwidth=0.65, relheight=0.8)
+city_entry.insert(0, "Enter city name for AQI here")
+
+get_aqi_button = tk.Button(aqi_frame, text="Get AQI", font=("Arial", 12, "bold"), relief="sunken", command=get_aqi)
+get_aqi_button.place(relx=0.7, rely=0.1, relwidth=0.25, relheight=0.8)
+
+# WQI Frame
+wqi_frame = tk.Frame(root, bg='#80c1ff', bd=10)
+wqi_frame.place(relx=0.5, rely=0.35, relwidth=0.75, relheight=0.5, anchor='n')
+
+# WQI Button
+fetch_button = tk.Button(wqi_frame, text="Fetch WQI Report", command=display_report)
+fetch_button.pack(pady=20)
+
+# AQI Label
+aqi_label = tk.Label(aqi_frame, font=("arial", 14), justify='left', bd=5)
+aqi_label.place(relx=0.05, rely=0.25, relwidth=0.9, relheight=0.7)
+
+root.mainloop()
