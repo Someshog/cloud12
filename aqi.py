@@ -29,22 +29,22 @@ def get_aqi():
 
         aqi_value = int(aqi_data['data'][0]['aqi'])
         if aqi_value <= 50:
-            a = tk.Label(text="     GOOD             ", fg = "light GREEN", bg="#3a83e8",font=("arial", 13,"bold"))
-            a.place(anchor="n", x =509, y = 255)
+            a = tk.Label(text="      GOOD       ", fg = "light GREEN", bg="#3a83e8",font=("arial", 13,"bold"))
+            a.place(anchor="n", x =510, y = 255)
             
         elif aqi_value > 50 and aqi_value <= 100:
             b = tk.Label(text="SATISFACTORY", fg = "LIGHT GREEN",bg="#3a83e8", font=("arial", 12,"bold"))
-            b.place(anchor="n", x =500, y = 255)
+            b.place(anchor="n", x =510, y = 255)
             
         elif aqi_value > 100 and aqi_value <= 200:
             c = tk.Label(text="   MODERATE   ", fg = "YELLOW", bg="#3a83e8",font=("arial", 12,"bold"))
-            c.place(anchor="n", x =500, y = 255)
+            c.place(anchor="n", x =510, y = 255)
         elif aqi_value > 200 and aqi_value <= 300:
             d = tk.Label(text="    POOR    ", fg = "Orange", bg="#3a83e8",font=("arial", 12,"bold"))
             d.place(anchor="n", x =490, y = 255) 
         else:
-            e = tk.Label(text="  VERY POOR ", fg = "red", bg="#3a83e8",font=("arial", 12,"bold"))
-            e.place(anchor="n", x =500, y = 255)
+            e = tk.Label(text="  VERYPOOR  ", fg = "red", bg="#3a83e8",font=("arial", 12,"bold"))
+            e.place(anchor="n", x =510, y = 255)
 
 
 # Dummy function to fetch water quality data based on location.
