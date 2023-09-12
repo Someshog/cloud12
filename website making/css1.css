@@ -72,11 +72,25 @@ nav ul li a {
     color: #fff;
 }
 
+/*GITHUB STYLING*/
+.GIT {
+    background-color: #1B1F23; 
+    padding: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+    
+
+}
+
 /* Contact section styles */
 .contact {
     background-color: #2c3e50; /* Blue */
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: #fff;
+    font-size: large;
     padding: 50px 0;
 }
 
